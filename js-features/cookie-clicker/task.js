@@ -5,7 +5,7 @@ const cookieElement = document.getElementById("cookie");
 let clickerCounter = Number(clickerCounterElement.textContent);
 let dateStart = Date.now();
 
-cookieElement.onclick = function () {
+cookieElement.onclick = () => {
   const dateEnd = Date.now();
 
   clickerCounter++;

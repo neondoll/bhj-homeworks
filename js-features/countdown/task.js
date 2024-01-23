@@ -4,7 +4,7 @@ const initialTimerValue = Number(timerElement.textContent);
 
 let timer = initialTimerValue;
 
-const setTimer = function (timer) {
+const setTimer = (timer) => {
   const date = new Date(0, 0, 0, 0, 0, timer);
   const hours = date.getHours(), minutes = date.getMinutes(), seconds = date.getSeconds()
 
@@ -13,7 +13,7 @@ const setTimer = function (timer) {
 
 setTimer(timer);
 
-setInterval(function () {
+setInterval(() => {
   if (timer) {
     timer -= 1;
   } else {

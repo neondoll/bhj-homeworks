@@ -19,7 +19,7 @@ const gameOver = () => {
 };
 
 for (let index = 1; index <= 9; index++) {
-  getHole(index).onclick = function () {
+  getHole(index).onclick = () => {
     if (getHole(index).classList.contains("hole_has-mole")) {
       dead++;
     } else {
