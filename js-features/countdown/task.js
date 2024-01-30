@@ -8,7 +8,7 @@ const setTimer = (timer) => {
   const date = new Date(0, 0, 0, 0, 0, timer);
   const hours = date.getHours(), minutes = date.getMinutes(), seconds = date.getSeconds()
 
-  timerElement.textContent = `${hours < 10 ? ("0" + hours) : hours}:${minutes < 10 ? ("0" + minutes) : minutes}:${seconds < 10 ? ("0" + seconds) : seconds}`;
+  timerElement.textContent = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 };
 
 setTimer(timer);
