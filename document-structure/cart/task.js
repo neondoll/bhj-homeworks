@@ -25,21 +25,13 @@ Array.from(document.getElementsByClassName('product')).forEach((productElement) 
       const cartProductCountElement = cartProductElement.querySelector('.cart__product-count');
       cartProductCountElement.innerText = String(Number(cartProductCountElement.textContent) + Number(productQuantityValueElement.textContent));
     } else {
-      const newCartProductElement = document.createElement('div');
-      newCartProductElement.classList.add('cart__product');
-      newCartProductElement.dataset.id = productElement.dataset.id;
+      const productImageElement = productElement.querySelector('.product__image');
 
-      const newCartProductImageElement = productElement.querySelector('.product__image').cloneNode(false);
-      newCartProductImageElement.setAttribute('class', 'cart__product-image');
-      console.log(newCartProductImageElement);
+      const newCartProductImageHTML = `<img class="cart__product-image" src="${productImageElement.src}" alt="${productImageElement.alt}">`;
+      const newCartProductCountHTML = `<div class="cart__product-count">${productQuantityValueElement.textContent}</div>`;
+      const newCartProductHTML = `<div class="cart__product" data-id="${productElement.dataset.id}">${newCartProductImageHTML}${newCartProductCountHTML}</div>`;
 
-      const newCartProductCountElement = productQuantityValueElement.cloneNode(true);
-      newCartProductCountElement.setAttribute('class', 'cart__product-count');
-      console.log(newCartProductCountElement);
-
-      newCartProductElement.appendChild(newCartProductImageElement);
-      newCartProductElement.appendChild(newCartProductCountElement);
-      cartProductsElement.appendChild(newCartProductElement);
+      cartProductsElement.insertAdjacentHTML('beforeend', newCartProductHTML);
     }
   });
 });
