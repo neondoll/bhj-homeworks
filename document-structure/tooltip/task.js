@@ -1,32 +1,50 @@
 const hasTooltipArray = Array.from(document.getElementsByClassName('has-tooltip'));
 
 hasTooltipArray.forEach((hasTooltipElement, hasTooltipIndex) => {
-  let style = '';
+  const newTooltipElement = document.createElement('div');
+  newTooltipElement.classList.add('tooltip');
+  newTooltipElement.innerText = hasTooltipElement.getAttribute('title');
 
-  if (hasTooltipElement.dataset.position) {
-    style = hasTooltipElement.dataset.position + ':0';
-  }
-
-  hasTooltipElement.insertAdjacentHTML('beforeEnd', `<div class="tooltip" style="${style}">` + hasTooltipElement.getAttribute('title') + '</div>');
+  hasTooltipElement.insertAdjacentElement('afterend', newTooltipElement);
 
   hasTooltipElement.addEventListener('click', function (event) {
     event.preventDefault();
 
-    const tooltipElement = event.target.querySelector('.tooltip');
+    const needAddTooltip = !newTooltipElement.classList.contains('tooltip_active');
 
-    if (tooltipElement.classList.contains('tooltip_active')) {
-      tooltipElement.classList.remove('tooltip_active');
-    } else {
-      for (let index = 0; index < hasTooltipArray.length; index++) {
-        const element = hasTooltipArray[index].querySelector('.tooltip');
+    Array.from(document.getElementsByClassName('tooltip')).forEach((tooltipElement) => {
+      if (tooltipElement.classList.contains('tooltip_active')) {
+        tooltipElement.classList.remove('tooltip_active');
+      }
+    });
 
-        if (index === hasTooltipIndex) {
-          element.classList.add('tooltip_active');
-        } else {
-          if (element.classList.contains('tooltip_active')) {
-            element.classList.remove('tooltip_active');
-          }
-        }
+    if (needAddTooltip) {
+      newTooltipElement.classList.add('tooltip_active');
+
+      const hasTooltipRect = hasTooltipElement.getBoundingClientRect();
+      const newTooltipRect = newTooltipElement.getBoundingClientRect();
+
+      switch (hasTooltipElement.dataset.position) {
+        case 'bottom':
+          newTooltipElement.style.top = hasTooltipRect.bottom + 'px';
+          newTooltipElement.style.left = (hasTooltipRect.left + (hasTooltipRect.width / 2) - (newTooltipRect.width / 2)) + 'px';
+          break;
+        case 'left':
+          newTooltipElement.style.top = (hasTooltipRect.top + (hasTooltipRect.height / 2) - (newTooltipRect.height / 2)) + 'px';
+          newTooltipElement.style.left = (hasTooltipRect.left - newTooltipRect.width) + 'px';
+          break;
+        case 'right':
+          newTooltipElement.style.top = (hasTooltipRect.top + (hasTooltipRect.height / 2) - (newTooltipRect.height / 2)) + 'px';
+          newTooltipElement.style.left = hasTooltipRect.right + 'px';
+          break
+        case 'top':
+          newTooltipElement.style.top = (hasTooltipRect.top - newTooltipRect.height) + 'px';
+          newTooltipElement.style.left = (hasTooltipRect.left + (hasTooltipRect.width / 2) - (newTooltipRect.width / 2)) + 'px';
+          break;
+        default:
+          newTooltipElement.style.top = hasTooltipRect.bottom + 'px';
+          newTooltipElement.style.left = hasTooltipRect.left + 'px';
+          break;
       }
     }
   });
