@@ -1,31 +1,31 @@
 const tasksFormElement = document.forms.tasks__form;
+const tasksInputElement = tasksFormElement.task__input;
 const tasksListElement = document.getElementById('tasks__list');
 
 tasksFormElement.addEventListener('submit', function (event) {
   event.preventDefault();
 
-  if (event.target.task__input.value !== '') {
+  const tasksInputValue = tasksInputElement.value.trim();
+
+  if (tasksInputValue !== '') {
     const newTaskElement = document.createElement('div');
     newTaskElement.classList.add('task');
+    tasksListElement.appendChild(newTaskElement);
 
-    const newTaskTitleElement = document.createElement('div');
-    newTaskTitleElement.classList.add('task__title');
-    newTaskTitleElement.innerText = event.target.task__input.value;
+    newTaskElement.insertAdjacentHTML('afterbegin', `<div class="task__title">${tasksInputValue}</div>`);
 
     const newTaskRemoveElement = document.createElement('a');
     newTaskRemoveElement.classList.add('task__remove');
-    newTaskRemoveElement.setAttribute('href', '#');
+    newTaskRemoveElement.href = '#';
     newTaskRemoveElement.innerHTML = '&times;';
+    newTaskElement.appendChild(newTaskRemoveElement);
+
     newTaskRemoveElement.addEventListener('click', function (event) {
       event.preventDefault();
 
       newTaskElement.remove();
     });
-
-    newTaskElement.appendChild(newTaskTitleElement);
-    newTaskElement.appendChild(newTaskRemoveElement);
-    tasksListElement.appendChild(newTaskElement);
-
-    event.target.task__input.value = '';
   }
+
+  tasksInputElement.value = '';
 });
