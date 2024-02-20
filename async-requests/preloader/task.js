@@ -31,10 +31,6 @@ xhr.onreadystatechange = function () {
   if (xhr.readyState === xhr.DONE) {
     console.log('XMLHttpRequest completed successfully');
 
-    if (loaderElement.classList.contains('loader_active')) {
-      loaderElement.classList.remove('loader_active');
-    }
-
     Valute = JSON.parse(xhr.responseText).response.Valute;
 
     localStorage.setItem("Valute", JSON.stringify(Valute));
