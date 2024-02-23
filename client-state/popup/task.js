@@ -10,22 +10,16 @@ const getCookie = (name) => {
   }
 };
 
-if (getCookie('subscribe-modal-close') === 'true') {
+if (getCookie('subscribe-modal-close') === 'true' && subscribeModalElement.classList.contains('modal_active')) {
+  subscribeModalElement.classList.remove('modal_active');
+} else if (!subscribeModalElement.classList.contains('modal_active')) {
+  subscribeModalElement.classList.add('modal_active');
+}
+
+subscribeModalElement.querySelector('.modal__close').addEventListener('click', () => {
   if (subscribeModalElement.classList.contains('modal_active')) {
     subscribeModalElement.classList.remove('modal_active');
   }
-} else {
-  if (!subscribeModalElement.classList.contains('modal_active')) {
-    subscribeModalElement.classList.add('modal_active');
-  }
-}
 
-Array.from(subscribeModalElement.querySelectorAll('.modal__close')).forEach((modalCloseElement) => {
-  modalCloseElement.addEventListener('click', () => {
-    if (subscribeModalElement.classList.contains('modal_active')) {
-      subscribeModalElement.classList.remove('modal_active');
-    }
-
-    document.cookie = 'subscribe-modal-close=true';
-  });
+  document.cookie = 'subscribe-modal-close=true';
 });

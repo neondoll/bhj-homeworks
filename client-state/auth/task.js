@@ -28,15 +28,14 @@ signinElement.querySelector('#signin__form').addEventListener('submit', (event) 
   xhr.open('POST', event.target.action);
   xhr.send(new FormData(event.target));
 
+  xhr.responseType = 'json';
   xhr.onload = function () {
-    const response = JSON.parse(xhr.response);
-
-    if (response.error) {
-      alert(`Ошибка ${xhr.status}: ${response.error}`);
-    } else if (!response.success) {
+    if (xhr.response.error) {
+      alert(`Ошибка ${xhr.status}: ${xhr.response.error}`);
+    } else if (!xhr.response.success) {
       alert('Неверный логин/пароль');
     } else {
-      localStorage.userId = response.user_id;
+      localStorage.userId = xhr.response.user_id;
 
       hideSignin();
       showWelcome();
